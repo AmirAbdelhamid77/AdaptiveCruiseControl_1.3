@@ -1,0 +1,7 @@
+../HAL/Src/motor.c:26:6:HAL_MOTOR_Init	1
+../HAL/Src/motor.c:46:6:HAL_MOTOR_Config	3
+../HAL/Src/motor.c:106:6:HAL_MOTOR_SetDirection	1
+../HAL/Src/motor.c:115:6:HAL_MOTOR_SetSpeed	2
+../HAL/Src/motor.c:129:6:HAL_MOTOR_Enable	1
+../HAL/Src/motor.c:137:6:HAL_MOTOR_Update	5
+../HAL/Src/motor.c:172:6:HAL_MOTOR_StopAll	3

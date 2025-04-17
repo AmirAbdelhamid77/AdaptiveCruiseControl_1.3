@@ -1,0 +1,6 @@
+../HAL/Src/ultrasonic.c:22:6:HAL_ULTRASONIC_Init	2
+../HAL/Src/ultrasonic.c:60:6:HAL_ULTRASONIC_StartMeasurement	5
+../HAL/Src/ultrasonic.c:100:10:HAL_ULTRASONIC_GetDistance	6
+../HAL/Src/ultrasonic.c:130:9:HAL_ULTRASONIC_IsReady	3
+../HAL/Src/ultrasonic.c:146:6:HAL_ULTRASONIC_TimeoutCallback	2
+../HAL/Src/ultrasonic.c:157:6:HAL_ULTRASONIC_Trigger	1

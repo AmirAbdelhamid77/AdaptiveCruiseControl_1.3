@@ -1,0 +1,6 @@
+../HAL/Src/speed_sensor.c:27:13:Speed_Sensor_Pulse_Callback	24	static
+../HAL/Src/speed_sensor.c:61:6:HAL_SPEED_SENSOR_Init	40	static
+../HAL/Src/speed_sensor.c:101:7:HAL_SPEED_SENSOR_GetSpeed	16	static
+../HAL/Src/speed_sensor.c:115:9:HAL_SPEED_SENSOR_IsUpdated	16	static
+../HAL/Src/speed_sensor.c:123:6:HAL_SPEED_SENSOR_Reset	16	static
+../HAL/Src/speed_sensor.c:131:6:HAL_SPEED_SENSOR_Update	16	static
