@@ -1,8 +1,8 @@
 /*
  * speed_sensor.c
  *
- * Created on: Apr 10, 2024
- * Author: Graduation Team
+Created on: Some Date
+ * Author: AMiR Abdelhamid
  */
 
 #include "speed_sensor.h"
