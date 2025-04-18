@@ -1,6 +1,6 @@
 /*
  * stm32_F103C8T6_timer_driver.h
- *
+ * Auther: Amir Abdelhamid
  */
 
 #ifndef INC_STM32_F103C6_TIMER_DRIVER_H_

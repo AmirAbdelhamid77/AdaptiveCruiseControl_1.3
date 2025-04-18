@@ -1,8 +1,8 @@
 /*
  * speed_sensor.c
  *
- * Created on: Apr 10, 2024
- * Author: Graduation Team
+ * Created on: Some Date
+ * Author: AMiR Abdelhamid
  */
 
 #include "speed_sensor.h"
@@ -75,6 +75,16 @@ void HAL_SPEED_SENSOR_Init(Speed_Sensor_t* sensor) {
         timerInitialized = 1;
     }
     
+    // Configure the sensor pin as input
+    GPIO_PinConfig_t sensorPinConfig = {
+        .GPIO_PinNumber = sensor->Pin,
+        // .GPIO_Mode = GPIO_Mode_Inp_floating,
+        .GPIO_Mode = GPIO_Mode_Inp_pull_up,   // Using internal pull-up
+        // .GPIO_Mode = GPIO_Mode_Inp_pull_down
+        .GPIO_Speed = GPIO_Speed_Reset_State
+    };
+    MCAL_GPIO_Init(sensor->Port, &sensorPinConfig);
+
     // Configure EXTI for speed sensor pin (rising edge)
     EXTI_PINCONFIG_t extiConfig = {
         .EXTI_Map_Pin = sensor->EXTI_Mapping,

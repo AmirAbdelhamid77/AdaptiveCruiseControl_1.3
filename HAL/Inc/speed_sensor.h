@@ -1,8 +1,8 @@
 /*
  * speed_sensor.h
  *
- * Created on: Apr 10, 2024
- * Author: Graduation Team
+ * Created on: Some Date
+ * Author: AMiR Abdelhamid
  */
 
 #ifndef HAL_INC_SPEED_SENSOR_H_
@@ -44,7 +44,7 @@ typedef struct {
 #define SPEED_SENSOR_PULSES_PER_REV    20
 
 // Wheel diameter in cm (adjust for your specific setup)
-#define WHEEL_DIAMETER_CM              6.5
+#define WHEEL_DIAMETER_CM              2.5
 
 // Wheel circumference in cm
 #define WHEEL_CIRCUMFERENCE_CM         (WHEEL_DIAMETER_CM * 3.14159f)

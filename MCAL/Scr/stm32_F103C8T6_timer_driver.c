@@ -1,6 +1,6 @@
 /*
  * stm32_F103C6_timer_driver.c
- *
+ * Auther: Amir Abdelhamid
  */
 
 #include "stm32F103C8T6_timer_driver.h"
