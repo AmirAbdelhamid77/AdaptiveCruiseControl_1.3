@@ -4,14 +4,14 @@
  *      Author: AMiR
  */
 
-#ifndef INC_STM32_F103C6_PIN_MAPPING_H_
-#define INC_STM32_F103C6_PIN_MAPPING_H_
+#ifndef INC_STM32_F103C8T6_PIN_MAPPING_H_
+#define INC_STM32_F103C8T6_PIN_MAPPING_H_
 
 //-----------------------------
 // Includes
 //-----------------------------
+#include <stm32_F103C8T6_EXTI_driver.h>
 #include "stm32f103x6.h"
-#include "stm32_F103C6_EXTI_driver.h"
 
 //===========================================================================
 // Pin Mapping Configuration

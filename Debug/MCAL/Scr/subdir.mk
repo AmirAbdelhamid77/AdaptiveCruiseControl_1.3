@@ -6,20 +6,20 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../MCAL/Scr/RCC.c \
-../MCAL/Scr/stm32_F103C6_EXTI_driver.c \
-../MCAL/Scr/stm32_F103C6_gpio_driver.c \
+../MCAL/Scr/stm32_F103C8T6_EXTI_driver.c \
+../MCAL/Scr/stm32_F103C8T6_gpio_driver.c \
 ../MCAL/Scr/stm32_F103C8T6_timer_driver.c 
 
 OBJS += \
 ./MCAL/Scr/RCC.o \
-./MCAL/Scr/stm32_F103C6_EXTI_driver.o \
-./MCAL/Scr/stm32_F103C6_gpio_driver.o \
+./MCAL/Scr/stm32_F103C8T6_EXTI_driver.o \
+./MCAL/Scr/stm32_F103C8T6_gpio_driver.o \
 ./MCAL/Scr/stm32_F103C8T6_timer_driver.o 
 
 C_DEPS += \
 ./MCAL/Scr/RCC.d \
-./MCAL/Scr/stm32_F103C6_EXTI_driver.d \
-./MCAL/Scr/stm32_F103C6_gpio_driver.d \
+./MCAL/Scr/stm32_F103C8T6_EXTI_driver.d \
+./MCAL/Scr/stm32_F103C8T6_gpio_driver.d \
 ./MCAL/Scr/stm32_F103C8T6_timer_driver.d 
 
 
@@ -30,7 +30,7 @@ MCAL/Scr/%.o MCAL/Scr/%.su MCAL/Scr/%.cyclo: ../MCAL/Scr/%.c MCAL/Scr/subdir.mk
 clean: clean-MCAL-2f-Scr
 
 clean-MCAL-2f-Scr:
-	-$(RM) ./MCAL/Scr/RCC.cyclo ./MCAL/Scr/RCC.d ./MCAL/Scr/RCC.o ./MCAL/Scr/RCC.su ./MCAL/Scr/stm32_F103C6_EXTI_driver.cyclo ./MCAL/Scr/stm32_F103C6_EXTI_driver.d ./MCAL/Scr/stm32_F103C6_EXTI_driver.o ./MCAL/Scr/stm32_F103C6_EXTI_driver.su ./MCAL/Scr/stm32_F103C6_gpio_driver.cyclo ./MCAL/Scr/stm32_F103C6_gpio_driver.d ./MCAL/Scr/stm32_F103C6_gpio_driver.o ./MCAL/Scr/stm32_F103C6_gpio_driver.su ./MCAL/Scr/stm32_F103C8T6_timer_driver.cyclo ./MCAL/Scr/stm32_F103C8T6_timer_driver.d ./MCAL/Scr/stm32_F103C8T6_timer_driver.o ./MCAL/Scr/stm32_F103C8T6_timer_driver.su
+	-$(RM) ./MCAL/Scr/RCC.cyclo ./MCAL/Scr/RCC.d ./MCAL/Scr/RCC.o ./MCAL/Scr/RCC.su ./MCAL/Scr/stm32_F103C8T6_EXTI_driver.cyclo ./MCAL/Scr/stm32_F103C8T6_EXTI_driver.d ./MCAL/Scr/stm32_F103C8T6_EXTI_driver.o ./MCAL/Scr/stm32_F103C8T6_EXTI_driver.su ./MCAL/Scr/stm32_F103C8T6_gpio_driver.cyclo ./MCAL/Scr/stm32_F103C8T6_gpio_driver.d ./MCAL/Scr/stm32_F103C8T6_gpio_driver.o ./MCAL/Scr/stm32_F103C8T6_gpio_driver.su ./MCAL/Scr/stm32_F103C8T6_timer_driver.cyclo ./MCAL/Scr/stm32_F103C8T6_timer_driver.d ./MCAL/Scr/stm32_F103C8T6_timer_driver.o ./MCAL/Scr/stm32_F103C8T6_timer_driver.su
 
 .PHONY: clean-MCAL-2f-Scr
 

@@ -6,7 +6,7 @@
  */
 
 
-#include <stm32_F103C6_gpio_driver.h>
+#include <stm32_F103C8T6_gpio_driver.h>
 
 
 
@@ -17,62 +17,76 @@
  **/
 
 /**================================================================
- * @Fn-MCAL_GPIO_Enable_ClocK
+ * @Fn-MCAL_GPIO_Enable_Clock
  * @brief -This Func is responsible for enabling clock of the peripheral and you can work successfully
  * @param [in] - Pointer of GPIOx
  * @retval -Not
  * Note-.....
  */
 
-void MCAL_GPIO_Enable_ClocK(GPIO_TypedDef* GPIOx)
+void MCAL_GPIO_Enable_Clock(GPIO_TypedDef* GPIOx)
 {
-	//GPIOx Clock Enable
-	if(GPIOx==GPIOA)
+	if(  GPIOx ==  GPIOA)
 	{
-		GPIOA_CLOCK_ENABLE();
+		GPIOA_CLOCK_ENABLE;
 	}
-	else if(GPIOx==GPIOB)
+	else if(GPIOx ==  GPIOB)
 	{
-		GPIOB_CLOCK_ENABLE();
+		GPIOB_CLOCK_ENABLE;
 	}
-	else if(GPIOx==GPIOC)
+	else if(GPIOx ==  GPIOC)
 	{
-		GPIOC_CLOCK_ENABLE();
+		GPIOC_CLOCK_ENABLE;
 	}
-	else if(GPIOx==GPIOD)
+	else if(GPIOx ==  GPIOD)
 	{
-		GPIOD_CLOCK_ENABLE();
+		GPIOD_CLOCK_ENABLE;
+	}
+	/* else if(GPIOx ==  GPIOE) // Assuming GPIOE exists
+	{
+		GPIOE_CLOCK_ENABLE();
+	} */
+	else
+	{
+		//DoNothing
 	}
 }
 
 
 
 /**================================================================
- * @Fn-MCAL_GPIO_Diable_ClocK
+ * @Fn-MCAL_GPIO_Disable_Clock
  * @brief -This Func is responsible for disabling clock of the peripheral.
  * @param [in] - Pointer of GPIOx
  * @retval -Not
  * Note-.....
  */
 
-void MCAL_GPIO_Diable_ClocK(GPIO_TypedDef* GPIOx)
+void MCAL_GPIO_Disable_Clock(GPIO_TypedDef* GPIOx)
 {
-	//GPIOx Clock Enable
-	if(GPIOx==GPIOA)
+	if(  GPIOx ==  GPIOA)
 	{
-		GPIOA_CLOCK_DISABLE();
+		GPIOA_CLOCK_DISABLE;
 	}
-	else if(GPIOx==GPIOB)
+	else if(GPIOx ==  GPIOB)
 	{
-		GPIOB_CLOCK_DISABLE();
+		GPIOB_CLOCK_DISABLE;
 	}
-	else if(GPIOx==GPIOC)
+	else if(GPIOx ==  GPIOC)
 	{
-		GPIOC_CLOCK_DISABLE();
+		GPIOC_CLOCK_DISABLE;
 	}
-	else if(GPIOx==GPIOD)
+	else if(GPIOx ==  GPIOD)
 	{
-		GPIOD_CLOCK_DISABLE();
+		GPIOD_CLOCK_DISABLE;
+	}
+	/* else if(GPIOx ==  GPIOE) // Assuming GPIOE exists
+	{
+		GPIOE_CLOCK_DISABLE();
+	} */
+	else
+	{
+		//DoNothing
 	}
 }
 

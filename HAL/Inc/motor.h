@@ -14,7 +14,7 @@
 #include <stm32F103C8T6_pin_mapping.h>
 #include <stm32F103C8T6_timer_driver.h>
 #include "stm32f103x6.h"
-#include "stm32_F103C6_gpio_driver.h"
+#include "stm32_F103C8T6_gpio_driver.h"
 
 //-----------------------------
 // type definitions (structures)

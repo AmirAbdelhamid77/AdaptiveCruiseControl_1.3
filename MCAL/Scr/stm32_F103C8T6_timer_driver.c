@@ -4,7 +4,7 @@
  */
 
 #include "stm32F103C8T6_timer_driver.h"
-#include "RCC.h"
+// #include "RCC.h" // Removed: RCC definitions likely available via stm32f103x6.h included in the header
 
 // Array of callback function pointers for timer update events
 static void (*TIM_UpdateCallbacks[8])(void) = {NULL};
@@ -12,9 +12,12 @@ static void (*TIM_UpdateCallbacks[8])(void) = {NULL};
 // Array of callback function pointers for timer capture/compare events
 static void (*TIM_CaptureCompareCallbacks[8][4])(void) = {{NULL}};
 
-/**
- * @brief Enable clock for the specified timer
- * @param TIMx: Timer instance
+/**================================================================
+ * @Fn-TIM_EnableClock
+ * @brief -Enable clock for the specified timer
+ * @param [in] - TIMx: Timer instance
+ * @retval -none
+ * Note-.....
  */
 static void TIM_EnableClock(TIM_TypeDef* TIMx) {
     if (TIMx == TIM1) {
@@ -28,10 +31,12 @@ static void TIM_EnableClock(TIM_TypeDef* TIMx) {
     }
 }
 
-/**
- * @brief Get timer index for array indexing
- * @param TIMx: Timer instance
- * @return Timer index (0-7) or 0 if not found
+/**================================================================
+ * @Fn-TIM_GetIndex
+ * @brief -Get timer index for array indexing
+ * @param [in] - TIMx: Timer instance
+ * @retval -Timer index (0-7) or 0 if not found
+ * Note-.....
  */
 static uint8_t TIM_GetIndex(TIM_TypeDef* TIMx) {
     if (TIMx == TIM1) return 0;
@@ -41,10 +46,12 @@ static uint8_t TIM_GetIndex(TIM_TypeDef* TIMx) {
     else return 0; // Default to 0 if not found
 }
 
-/**
- * @brief Get channel index for array indexing
- * @param Channel: Timer channel
- * @return Channel index (0-3) or 0 if not found
+/**================================================================
+ * @Fn-TIM_GetChannelIndex
+ * @brief -Get channel index for array indexing
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @retval -Channel index (0-3) or 0 if not found
+ * Note-.....
  */
 static uint8_t TIM_GetChannelIndex(uint16_t Channel) {
     if (Channel == TIM_CHANNEL_1) return 0;
@@ -56,9 +63,12 @@ static uint8_t TIM_GetChannelIndex(uint16_t Channel) {
 
 // Timer base functions
 
-/**
- * @brief Initialize timer base functionality
- * @param TIM_Config: Timer configuration struct
+/**================================================================
+ * @Fn-MCAL_TIM_Base_Init
+ * @brief -Initialize timer base functionality
+ * @param [in] - TIM_Config: Pointer to Timer TimeBase configuration struct
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_Base_Init(TIM_TimeBase_Config_t* TIM_Config) {
     TIM_TypeDef* TIMx = TIM_Config->TIMx;
@@ -85,9 +95,12 @@ void MCAL_TIM_Base_Init(TIM_TimeBase_Config_t* TIM_Config) {
     TIMx->EGR |= 0x01;
 }
 
-/**
- * @brief Deinitialize timer
- * @param TIMx: Timer instance
+/**================================================================
+ * @Fn-MCAL_TIM_Base_DeInit
+ * @brief -Deinitialize timer and reset its registers
+ * @param [in] - TIMx: Timer instance
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_Base_DeInit(TIM_TypeDef* TIMx) {
     if (TIMx == TIM1) {
@@ -113,46 +126,60 @@ void MCAL_TIM_Base_DeInit(TIM_TypeDef* TIMx) {
     }
 }
 
-/**
- * @brief Start timer counter
- * @param TIMx: Timer instance
+/**================================================================
+ * @Fn-MCAL_TIM_Base_Start
+ * @brief -Start timer counter
+ * @param [in] - TIMx: Timer instance
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_Base_Start(TIM_TypeDef* TIMx) {
     // Enable counter
     TIMx->CR1 |= 0x01;
 }
 
-/**
- * @brief Stop timer counter
- * @param TIMx: Timer instance
+/**================================================================
+ * @Fn-MCAL_TIM_Base_Stop
+ * @brief -Stop timer counter
+ * @param [in] - TIMx: Timer instance
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_Base_Stop(TIM_TypeDef* TIMx) {
     // Disable counter
     TIMx->CR1 &= ~0x01;
 }
 
-/**
- * @brief Set timer counter value
- * @param TIMx: Timer instance
- * @param Counter: Counter value
+/**================================================================
+ * @Fn-MCAL_TIM_Base_SetCounter
+ * @brief -Set timer counter value
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Counter: Counter value to set
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_Base_SetCounter(TIM_TypeDef* TIMx, uint32_t Counter) {
     TIMx->CNT = Counter;
 }
 
-/**
- * @brief Get timer counter value
- * @param TIMx: Timer instance
- * @return Current counter value
+/**================================================================
+ * @Fn-MCAL_TIM_Base_GetCounter
+ * @brief -Get timer counter value
+ * @param [in] - TIMx: Timer instance
+ * @retval -Current counter value
+ * Note-.....
  */
 uint32_t MCAL_TIM_Base_GetCounter(TIM_TypeDef* TIMx) {
     return TIMx->CNT;
 }
 
-/**
- * @brief Set timer prescaler
- * @param TIMx: Timer instance
- * @param Prescaler: Prescaler value
+/**================================================================
+ * @Fn-MCAL_TIM_Base_SetPrescaler
+ * @brief -Set timer prescaler value
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Prescaler: Prescaler value to set
+ * @retval -none
+ * Note- Triggers an update event to load the new value immediately.
  */
 void MCAL_TIM_Base_SetPrescaler(TIM_TypeDef* TIMx, uint16_t Prescaler) {
     TIMx->PSC = Prescaler;
@@ -160,10 +187,13 @@ void MCAL_TIM_Base_SetPrescaler(TIM_TypeDef* TIMx, uint16_t Prescaler) {
     TIMx->EGR |= 0x01;
 }
 
-/**
- * @brief Set timer period
- * @param TIMx: Timer instance
- * @param Period: Period value
+/**================================================================
+ * @Fn-MCAL_TIM_Base_SetPeriod
+ * @brief -Set timer auto-reload value (period)
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Period: Period value to set
+ * @retval -none
+ * Note- Triggers an update event to load the new value immediately.
  */
 void MCAL_TIM_Base_SetPeriod(TIM_TypeDef* TIMx, uint32_t Period) {
     TIMx->ARR = Period;
@@ -173,11 +203,14 @@ void MCAL_TIM_Base_SetPeriod(TIM_TypeDef* TIMx, uint32_t Period) {
 
 // PWM functions
 
-/**
- * @brief Initialize PWM mode for a channel
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
- * @param PWM_Config: PWM configuration struct
+/**================================================================
+ * @Fn-MCAL_TIM_PWM_Init
+ * @brief -Initialize PWM mode for a specific timer channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @param [in] - PWM_Config: Pointer to Timer Output Compare configuration struct for PWM
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_PWM_Init(TIM_TypeDef* TIMx, uint16_t Channel, TIM_OC_Config_t* PWM_Config) {
     // Configure the channel based on channel number
@@ -271,10 +304,13 @@ void MCAL_TIM_PWM_Init(TIM_TypeDef* TIMx, uint16_t Channel, TIM_OC_Config_t* PWM
     }
 }
 
-/**
- * @brief Start PWM signal generation
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
+/**================================================================
+ * @Fn-MCAL_TIM_PWM_Start
+ * @brief -Start PWM signal generation on a specific channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @retval -none
+ * Note- Starts the timer base if it's not already running.
  */
 void MCAL_TIM_PWM_Start(TIM_TypeDef* TIMx, uint16_t Channel) {
     // Enable the corresponding output
@@ -285,10 +321,13 @@ void MCAL_TIM_PWM_Start(TIM_TypeDef* TIMx, uint16_t Channel) {
     MCAL_TIM_Base_Start(TIMx);
 }
 
-/**
- * @brief Stop PWM signal generation
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
+/**================================================================
+ * @Fn-MCAL_TIM_PWM_Stop
+ * @brief -Stop PWM signal generation on a specific channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_PWM_Stop(TIM_TypeDef* TIMx, uint16_t Channel) {
     // Disable the corresponding output
@@ -296,11 +335,14 @@ void MCAL_TIM_PWM_Stop(TIM_TypeDef* TIMx, uint16_t Channel) {
     TIMx->CCER &= ~(1 << shift);
 }
 
-/**
- * @brief Set PWM duty cycle
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
- * @param DutyCycle: Duty cycle value (0-100%)
+/**================================================================
+ * @Fn-MCAL_TIM_PWM_SetDutyCycle
+ * @brief -Set PWM duty cycle for a specific channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @param [in] - DutyCycle: Duty cycle value (0-100)
+ * @retval -none
+ * Note- Calculates pulse width based on current ARR value.
  */
 void MCAL_TIM_PWM_SetDutyCycle(TIM_TypeDef* TIMx, uint16_t Channel, uint16_t DutyCycle) {
     uint32_t pulse = ((TIMx->ARR + 1) * DutyCycle) / 100;
@@ -324,11 +366,14 @@ void MCAL_TIM_PWM_SetDutyCycle(TIM_TypeDef* TIMx, uint16_t Channel, uint16_t Dut
 
 // Input Capture functions
 
-/**
- * @brief Initialize Input Capture for a channel
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
- * @param IC_Config: Input Capture configuration struct
+/**================================================================
+ * @Fn-MCAL_TIM_IC_Init
+ * @brief -Initialize Input Capture mode for a specific timer channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @param [in] - IC_Config: Pointer to Timer Input Capture configuration struct
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_IC_Init(TIM_TypeDef* TIMx, uint16_t Channel, TIM_IC_Config_t* IC_Config) {
     switch (Channel) {
@@ -374,10 +419,13 @@ void MCAL_TIM_IC_Init(TIM_TypeDef* TIMx, uint16_t Channel, TIM_IC_Config_t* IC_C
     }
 }
 
-/**
- * @brief Start Input Capture
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
+/**================================================================
+ * @Fn-MCAL_TIM_IC_Start
+ * @brief -Start Input Capture on a specific channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @retval -none
+ * Note- Starts the timer base if it's not already running.
  */
 void MCAL_TIM_IC_Start(TIM_TypeDef* TIMx, uint16_t Channel) {
     // Enable the corresponding capture input
@@ -388,10 +436,13 @@ void MCAL_TIM_IC_Start(TIM_TypeDef* TIMx, uint16_t Channel) {
     MCAL_TIM_Base_Start(TIMx);
 }
 
-/**
- * @brief Stop Input Capture
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
+/**================================================================
+ * @Fn-MCAL_TIM_IC_Stop
+ * @brief -Stop Input Capture on a specific channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_IC_Stop(TIM_TypeDef* TIMx, uint16_t Channel) {
     // Disable the corresponding capture input
@@ -399,11 +450,13 @@ void MCAL_TIM_IC_Stop(TIM_TypeDef* TIMx, uint16_t Channel) {
     TIMx->CCER &= ~(1 << shift);
 }
 
-/**
- * @brief Get captured value
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
- * @return Captured value
+/**================================================================
+ * @Fn-MCAL_TIM_IC_GetCapture
+ * @brief -Get the last captured value from a specific input capture channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @retval -Captured timer value
+ * Note-.....
  */
 uint32_t MCAL_TIM_IC_GetCapture(TIM_TypeDef* TIMx, uint16_t Channel) {
     uint32_t value = 0;
@@ -428,10 +481,13 @@ uint32_t MCAL_TIM_IC_GetCapture(TIM_TypeDef* TIMx, uint16_t Channel) {
 
 // Interrupt functions
 
-/**
- * @brief Enable timer interrupt
- * @param TIMx: Timer instance
- * @param Interrupt: Interrupt type
+/**================================================================
+ * @Fn-MCAL_TIM_EnableIT
+ * @brief -Enable a specific timer interrupt and its corresponding NVIC line
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Interrupt: Interrupt type (@ref TIM_Interrupt_Definition)
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_EnableIT(TIM_TypeDef* TIMx, uint16_t Interrupt) {
     // Enable the specified timer interrupt
@@ -454,10 +510,13 @@ void MCAL_TIM_EnableIT(TIM_TypeDef* TIMx, uint16_t Interrupt) {
     }
 }
 
-/**
- * @brief Disable timer interrupt
- * @param TIMx: Timer instance
- * @param Interrupt: Interrupt type
+/**================================================================
+ * @Fn-MCAL_TIM_DisableIT
+ * @brief -Disable a specific timer interrupt
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Interrupt: Interrupt type (@ref TIM_Interrupt_Definition)
+ * @retval -none
+ * Note- Disables the NVIC line only if all interrupts for that timer are disabled.
  */
 void MCAL_TIM_DisableIT(TIM_TypeDef* TIMx, uint16_t Interrupt) {
     // Disable the specified timer interrupt
@@ -479,40 +538,51 @@ void MCAL_TIM_DisableIT(TIM_TypeDef* TIMx, uint16_t Interrupt) {
     }
 }
 
-/**
- * @brief Get timer flag status
- * @param TIMx: Timer instance
- * @param Flag: Flag to check
- * @return Flag status (1 if set, 0 if not set)
+/**================================================================
+ * @Fn-MCAL_TIM_GetFlagStatus
+ * @brief -Get the status of a specific timer flag
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Flag: Flag to check (@ref TIM_Interrupt_Definition or other SR flags)
+ * @retval -Flag status (1 if set, 0 if not set)
+ * Note-.....
  */
 uint8_t MCAL_TIM_GetFlagStatus(TIM_TypeDef* TIMx, uint16_t Flag) {
     return (TIMx->SR & Flag) ? 1 : 0;
 }
 
-/**
- * @brief Clear timer flag
- * @param TIMx: Timer instance
- * @param Flag: Flag to clear
+/**================================================================
+ * @Fn-MCAL_TIM_ClearFlag
+ * @brief -Clear a specific timer flag
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Flag: Flag to clear (@ref TIM_Interrupt_Definition or other SR flags)
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_ClearFlag(TIM_TypeDef* TIMx, uint16_t Flag) {
     TIMx->SR &= ~Flag;
 }
 
-/**
- * @brief Set callback function for timer update event
- * @param TIMx: Timer instance
- * @param Callback: Pointer to callback function
+/**================================================================
+ * @Fn-MCAL_TIM_SetUpdateCallback
+ * @brief -Set the callback function for a timer's update interrupt event
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Callback: Pointer to the callback function (void function returning void)
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_SetUpdateCallback(TIM_TypeDef* TIMx, void (*Callback)(void)) {
     uint8_t timer_idx = TIM_GetIndex(TIMx);
     TIM_UpdateCallbacks[timer_idx] = Callback;
 }
 
-/**
- * @brief Set callback function for timer capture/compare event
- * @param TIMx: Timer instance
- * @param Channel: Timer channel
- * @param Callback: Pointer to callback function
+/**================================================================
+ * @Fn-MCAL_TIM_SetCaptureCompareCallback
+ * @brief -Set the callback function for a timer's capture/compare interrupt event on a specific channel
+ * @param [in] - TIMx: Timer instance
+ * @param [in] - Channel: Timer channel (@ref TIM_Channel)
+ * @param [in] - Callback: Pointer to the callback function (void function returning void)
+ * @retval -none
+ * Note-.....
  */
 void MCAL_TIM_SetCaptureCompareCallback(TIM_TypeDef* TIMx, uint16_t Channel, void (*Callback)(void)) {
     uint8_t timer_idx = TIM_GetIndex(TIMx);

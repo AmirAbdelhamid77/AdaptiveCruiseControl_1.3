@@ -11,9 +11,9 @@
 
 //Includes
 
+#include <stm32_F103C8T6_EXTI_driver.h>
 #include "stm32f103x6.h"
 #include "stm32_F103C6_gpio_driver.h"
-#include "stm32_F103C6_EXTI_driver.h"
 #include "RCC.h"
 
 // Add necessary bit definitions if not already included

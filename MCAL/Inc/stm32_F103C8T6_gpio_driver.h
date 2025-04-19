@@ -129,7 +129,7 @@ These bits are written by software to configure the corresponding I/O port
  * ===============================================
  */
 
-void MCAL_GPIO_Enable_ClocK(GPIO_TypedDef* GPIOx);
+void MCAL_GPIO_Enable_Clock(GPIO_TypedDef* GPIOx);
 
 void MCAL_GPIO_Init(GPIO_TypedDef* GPIOx, GPIO_PinConfig_t* PinConfig );
 void MCAL_GPIO_DInit(GPIO_TypedDef* GPIOx);
@@ -145,34 +145,6 @@ void MCAL_GPIO_WritePort(GPIO_TypedDef* GPIOx, uint16_t Value);
 void MCAL_GPIO_TogglePin(GPIO_TypedDef* GPIOx,uint16_t PinNumber);
 
 uint8_t MCAL_GPIO_LockPin(GPIO_TypedDef* GPIOx,uint16_t PinNumber);
-
-
-
-
-
-
-
-
-
-// Additional GPIO Clock Control macros
-#define GPIOA_CLOCK_ENABLE()    RCC_GPIOA_CLK_EN()
-#define GPIOB_CLOCK_ENABLE()    RCC_GPIOB_CLK_EN()
-#define GPIOC_CLOCK_ENABLE()    RCC_GPIOC_CLK_EN()
-#define GPIOD_CLOCK_ENABLE()    RCC_GPIOD_CLK_EN()
-#define GPIOE_CLOCK_ENABLE()    RCC_GPIOE_CLK_EN()
-#define AFIO_CLOCK_ENABLE()     RCC_AFIO_CLK_EN()
-
-// Disable clocks
-#define GPIOA_CLOCK_DISABLE()   RCC_GPIOA_CLK_Reset()
-#define GPIOB_CLOCK_DISABLE()   RCC_GPIOB_CLK_Reset()
-#define GPIOC_CLOCK_DISABLE()   RCC_GPIOC_CLK_Reset()
-#define GPIOD_CLOCK_DISABLE()   RCC_GPIOD_CLK_Reset()
-#define GPIOE_CLOCK_DISABLE()   RCC_GPIOE_CLK_Reset()
-#define AFIO_CLOCK_DISABLE()    RCC_AFIO_CLK_Reset()
-
-
-
-
 
 
 

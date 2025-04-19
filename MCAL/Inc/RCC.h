@@ -9,7 +9,7 @@
 #define RCC_DRIVER_RCC_H_
 
 #include "stm32f103x6.h"
-#include "stm32_F103C6_gpio_driver.h"
+#include "stm32_F103C8T6_gpio_driver.h"
 
 #define HSE_CLK		(uint32_t)16000000
 #define HSI_RC_CLK	(uint32_t)8000000

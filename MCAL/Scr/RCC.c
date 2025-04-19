@@ -36,40 +36,31 @@ const	uint16_t	AHBrescTable[16U] = 	{0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8
 
 uint32_t	MCAL_RCC_GETSYSCLKfreq(void)
 {
-	uint32_t SystemClock = 0;
-	uint8_t CLKSRC = (RCC->CFGR >> 2) & 0b11; // SWS bits
 
-	switch (CLKSRC) {
-		case 0: // HSI used as system clock
-			SystemClock = HSI_RC_CLK;
-			break;
-		case 1: // HSE used as system clock
-			// Assume HSE_VALUE is defined correctly elsewhere (e.g., in stm32f1xx_hal_conf.h or similar)
-			// Or use the define from RCC.h for now, but make sure it matches your crystal
-			SystemClock = HSE_CLK;
-			break;
-		case 2: // PLL used as system clock
-		{
-			uint32_t pllmul = ((RCC->CFGR >> 18) & 0b1111) + 2; // PLLMUL bits + 2
-			// Adjust multiplier for values >= 16 (represented differently)
-			if (pllmul > 16) pllmul = 16; // Max multiplier is 16 for F103
+	//we will use HSI as a system clock
 
-			uint32_t pllsrc = (RCC->CFGR >> 16) & 0b1; // PLLSRC bit
+	switch((RCC->CFGR >>2) & 0b11){
+	//	SWS[1:0]: System clock switch status
+	//	Set and cleared by hardware to indicate which clock source is used as system clock.
+	//	00: HSI oscillator used as system clock
+	//	01: HSE oscillator used as system clock
+	//	10: PLL used as system clock
+	//	11: Not applicable
 
-			if (pllsrc == 0) { // HSI/2 selected as PLL source
-				SystemClock = (HSI_RC_CLK / 2) * pllmul;
-			} else { // HSE selected as PLL source
-				uint8_t hse_divider = ((RCC->CFGR >> 17) & 0b1) + 1; // PLLXTPRE bit + 1 (1 or 2)
-				SystemClock = (HSE_CLK / hse_divider) * pllmul;
-			}
-			break;
-		}
-		default:
-			// Should not happen, default to HSI
-			SystemClock = HSI_RC_CLK;
-			break;
+	case 0:
+		return HSI_RC_CLK;
+		break;
+	case 1:
+		return HSE_CLK;//we need to calculate it ,so user should specify it how to use HSE
+		break;
+	case 2:
+
+		return 16000000;//we need to calculate it ,so user should specify it how to use PLLCK & PLLMUL & PLL MUX
+		break;
+
 	}
-	return SystemClock;
+	return 0;
+
 }
 
 uint32_t	MCAL_RCC_GETHCLKfreq(void){

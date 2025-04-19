@@ -6,7 +6,7 @@
  */
 
 
-#include <stm32_F103C6_EXTI_driver.h>
+#include <stm32_F103C8T6_EXTI_driver.h>
 
 void (* GP_FuncCallBack[16] ) (void);
 
@@ -41,47 +41,40 @@ void (* GP_FuncCallBack[16] ) (void);
 void NVIC__EXTI_IRQ_ENABLE(EXTI_PINCONFIG_t* EXTI_Config)
 {
 	EXTI->IMR |= (1 << EXTI_Config->EXTI_Map_Pin.EXTI_Line_Number);
-	
-	// Use if-else instead of switch for groups that share the same IRQ number
-	if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI0_IRQ)
+	switch(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn)
 	{
-		NVIC_IRQ6_EXTI0_Enable;
+
+	case (EXTI0_IRQ):
+						NVIC_IRQ6_EXTI0_ENABLE;
+						break;
+	case (EXTI1_IRQ):
+						NVIC_IRQ7_EXTI1_ENABLE;
+						break;
+	case (EXTI2_IRQ):
+						NVIC_IRQ8_EXTI2_ENABLE;
+						break;
+	case (EXTI3_IRQ):
+						NVIC_IRQ9_EXTI3_ENABLE;
+						break;
+
+	case (EXTI4_IRQ):
+						NVIC_IRQ10_EXTI4_ENABLE;
+						break;
+
+	case 23: // EXTI5_IRQ to EXTI9_IRQ share IRQ 23
+						NVIC_IRQ23_EXTI5_9_ENABLE;
+						break;
+
+	case 40: // EXTI10_IRQ to EXTI15_IRQ share IRQ 40
+						NVIC_IRQ40_EXTI10_15_ENABLE;
+						break;
+	default:
+						break;
+
+
 	}
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI1_IRQ)
-	{
-		NVIC_IRQ7_EXTI1_Enable;
-	}
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI2_IRQ)
-	{
-		NVIC_IRQ8_EXTI2_Enable;
-	}
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI3_IRQ)
-	{
-		NVIC_IRQ9_EXTI3_Enable;
-	}
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI4_IRQ)
-	{
-		NVIC_IRQ10_EXTI4_Enable;
-	}
-	// EXTI5 through EXTI9 share the same IRQ number
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI5_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI6_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI7_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI8_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI9_IRQ)
-	{
-		NVIC_IRQ23_EXTI5_9_Enable;
-	}
-	// EXTI10 through EXTI15 share the same IRQ number
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI10_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI11_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI12_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI13_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI14_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI15_IRQ)
-	{
-		NVIC_IRQ40_EXTI10_15_Enable;
-	}
+
+
 }
 
 
@@ -96,48 +89,40 @@ void NVIC__EXTI_IRQ_ENABLE(EXTI_PINCONFIG_t* EXTI_Config)
 
 void NVIC__EXTI_IRQ_DISABLE(EXTI_PINCONFIG_t* EXTI_Config)
 {
+
 	EXTI->IMR &= ~(1 << EXTI_Config->EXTI_Map_Pin.EXTI_Line_Number);
-	
-	// Use if-else instead of switch for groups that share the same IRQ number
-	if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI0_IRQ)
+	switch(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn)
 	{
-		NVIC_IRQ6_EXTI0_Disable;
+
+	case (EXTI0_IRQ):
+						NVIC_IRQ6_EXTI0_DISABLE;
+						break;
+	case (EXTI1_IRQ):
+						NVIC_IRQ7_EXTI1_DISABLE;
+						break;
+	case (EXTI2_IRQ):
+						NVIC_IRQ8_EXTI2_DISABLE;
+						break;
+	case (EXTI3_IRQ):
+					    NVIC_IRQ9_EXTI3_DISABLE;
+						break;
+
+	case (EXTI4_IRQ):
+						NVIC_IRQ10_EXTI4_DISABLE;
+						break;
+
+	case 23: // EXTI5_IRQ to EXTI9_IRQ share IRQ 23
+						NVIC_IRQ23_EXTI5_9_DISABLE;
+						break;
+
+	case 40: // EXTI10_IRQ to EXTI15_IRQ share IRQ 40
+						NVIC_IRQ40_EXTI10_15_DISABLE;
+						break;
+	default:
+						break;
+
 	}
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI1_IRQ)
-	{
-		NVIC_IRQ7_EXTI1_Disable;
-	}
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI2_IRQ)
-	{
-		NVIC_IRQ8_EXTI2_Disable;
-	}
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI3_IRQ)
-	{
-		NVIC_IRQ9_EXTI3_Disable;
-	}
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI4_IRQ)
-	{
-		NVIC_IRQ10_EXTI4_Disable;
-	}
-	// EXTI5 through EXTI9 share the same IRQ number
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI5_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI6_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI7_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI8_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI9_IRQ)
-	{
-		NVIC_IRQ23_EXTI5_9_Disable;
-	}
-	// EXTI10 through EXTI15 share the same IRQ number
-	else if(EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI10_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI11_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI12_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI13_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI14_IRQ ||
-			EXTI_Config->EXTI_Map_Pin.IVT_EXTI_IRQn == EXTI15_IRQ)
-	{
-		NVIC_IRQ40_EXTI10_15_Disable;
-	}
+
 }
 
 
@@ -162,13 +147,13 @@ void MCAL_EXTI_DEInit(void)
 
 
 	//Reset NVIC Controller
-	NVIC_IRQ6_EXTI0_Disable;
-	NVIC_IRQ7_EXTI1_Disable;
-	NVIC_IRQ8_EXTI2_Disable;
-	NVIC_IRQ9_EXTI3_Disable;
-	NVIC_IRQ10_EXTI4_Disable;
-	NVIC_IRQ23_EXTI5_9_Disable;
-	NVIC_IRQ40_EXTI10_15_Disable;
+	NVIC_IRQ6_EXTI0_DISABLE;
+	NVIC_IRQ7_EXTI1_DISABLE;
+	NVIC_IRQ8_EXTI2_DISABLE;
+	NVIC_IRQ9_EXTI3_DISABLE;
+	NVIC_IRQ10_EXTI4_DISABLE;
+	NVIC_IRQ23_EXTI5_9_DISABLE;
+	NVIC_IRQ40_EXTI10_15_DISABLE;
 
 }
 
@@ -190,7 +175,7 @@ void MCAL_EXTI_Init(EXTI_PINCONFIG_t* EXTI_Config)
 	GPIO_EXTI_Config.GPIO_Mode=GPIO_Mode_Inp_Floating;
 	GPIO_EXTI_Config.GPIO_Speed= GPIO_Speed_Reset_State;
 	MCAL_GPIO_Init(EXTI_Config->EXTI_Map_Pin.GPIOX,&GPIO_EXTI_Config);
-	MCAL_GPIO_Enable_ClocK(EXTI_Config->EXTI_Map_Pin.GPIOX);
+	MCAL_GPIO_Enable_Clock(EXTI_Config->EXTI_Map_Pin.GPIOX);
 
 	// Mapping Between GPIO AND EXTI by AFIO
 
