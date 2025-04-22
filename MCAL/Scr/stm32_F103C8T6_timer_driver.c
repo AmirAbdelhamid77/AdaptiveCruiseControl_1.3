@@ -4,7 +4,6 @@
  */
 
 #include "stm32F103C8T6_timer_driver.h"
-// #include "RCC.h" // Removed: RCC definitions likely available via stm32f103x6.h included in the header
 
 // Array of callback function pointers for timer update events
 static void (*TIM_UpdateCallbacks[8])(void) = {NULL};
